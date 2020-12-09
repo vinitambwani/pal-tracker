@@ -48,10 +48,10 @@ public class TimeEntryController {
     @PutMapping("{timeEntryId}")
     public ResponseEntity<TimeEntry> update(@PathVariable long timeEntryId,
                                             @RequestBody TimeEntry timeEntryToUpdate) {
-        TimeEntry timeEntry = timeEntryRepository.find(timeEntryId);
+        TimeEntry timeEntry = timeEntryRepository.update(timeEntryId,timeEntryToUpdate);
         if(timeEntry!=null){
             return new ResponseEntity<>(
-                    timeEntryRepository.update(timeEntryId,timeEntryToUpdate),
+                    timeEntry,
                     HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,11 +59,7 @@ public class TimeEntryController {
 
     @DeleteMapping("{timeEntryId}")
     public ResponseEntity<Void> delete(@PathVariable long timeEntryId) {
-        TimeEntry timeEntry = timeEntryRepository.find(timeEntryId);
-        if(timeEntry!=null){
-            timeEntryRepository.delete(timeEntryId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+             timeEntryRepository.delete(timeEntryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
